@@ -1,4 +1,4 @@
-Public class Hello()
+Public class Hello
 {
 
 Public static void Main(String[] args)
