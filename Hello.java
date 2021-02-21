@@ -1,6 +1,11 @@
 Public class Hello {
-  Public static void Main(String[] args){
-//Print Hello World
-    System.out.println("Hello, World");
-    }
+  
+
+public static void main(String[] args) 
+ {
+  
+    System.out.println("Helloworld");
+
+ }
+
 }
