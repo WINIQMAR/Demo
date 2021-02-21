@@ -1,5 +1,4 @@
-Public class Hello {
-  
+class Main {
 
 public static void main(String[] args) 
  {
