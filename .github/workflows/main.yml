@@ -1,0 +1,45 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on pull request events but only for the "main" branch
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Job for building the application
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Checks if the pull request is from the develop branch
+      - name: Check source branch
+        if: github.head_ref == 'main'
+        run: echo "Building the application..."
+
+  # Job for running tests
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source branch
+        if: github.head_ref == 'main'
+        run: echo "Running tests..."
+
+  # Job for deploying the application
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source branch
+        if: github.head_ref == 'main'
+        run: echo "Deploying the application..."
