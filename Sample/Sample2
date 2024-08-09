@@ -1,0 +1,12 @@
+Public class Sample2 {
+
+public static void main(String[] args) 
+ {
+  
+    System.out.println("Its a Sample2");
+    System.out.println("Execute");
+    System.out.println("commit");
+
+ }
+
+}
