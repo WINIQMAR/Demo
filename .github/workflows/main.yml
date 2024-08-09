@@ -23,7 +23,7 @@ jobs:
 
       # Checks if the pull request is from the develop branch
       - name: Check source branch
-        if: github.head_ref == 'develop'
+        if: github.head_ref == 'main'
         run: echo "Building the application..."
 
   # Job for running tests
