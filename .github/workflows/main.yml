@@ -27,10 +27,10 @@ jobs:
 
     - name: Run OWASP ZAP scan
       run: |
-        docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-weekly zap-baseline.py -t https://demo.testfire.net/ -r zap_report.html -z "auth.loginurl=https://demo.testfire.net/login" -z "auth.username=admin" -z "auth.password=admin"
+        docker run -v $(pwd):/tmp/:rw -t zaproxy/zap-weekly zap-baseline.py -t https://demo.testfire.net/ -r /tmp/zap_report.html -z "auth.loginurl=https://demo.testfire.net/login" -z "auth.username=admin" -z "auth.password=admin"
 
     - name: Upload ZAP report
       uses: actions/upload-artifact@v3
       with:
         name: zap-report
-        path: zap_report.html
+        path: /tmp/zap_report.html
