@@ -10,9 +10,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Pull OWASP ZAP Docker Image
-        run: docker pull owasp/zap2docker-stable
-
-      - name: Run OWASP ZAP Scan
-        run: |
-          docker run --rm -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://testphp.vulnweb.com/ -r testreport.html
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.6.1
+        with:
+          target: 'http://testphp.vulnweb.com/'
+          cmd_options: '-a'
