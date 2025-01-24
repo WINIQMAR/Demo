@@ -1,45 +1,36 @@
-name: CI
+name: OWASP ZAP Scan
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on pull request events but only for the "main" branch
+  push:
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Job for building the application
-  build:
-    # The type of runner that the job will run on
+  zap_scan:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      # Checks if the pull request is from the develop branch
-      - name: Check source branch
-        if: github.head_ref == 'main'
-        run: echo "Building the application..."
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: vinaykumarnomula
+        password: V$arpv1234
 
-  # Job for running tests
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check source branch
-        if: github.head_ref == 'main'
-        run: echo "Running tests..."
+    - name: Pull OWASP ZAP Docker image
+      run: docker pull zaproxy/zap-weekly
 
-  # Job for deploying the application
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check source branch
-        if: github.head_ref == 'main'
-        run: echo "Deploying the application..."
+    - name: Run OWASP ZAP scan
+      run: |
+        docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-weekly zap-full-scan.py -t https://demo.testfire.net/ -r zap_report.html
+
+    - name: Upload ZAP report
+      uses: actions/upload-artifact@v3
+      with:
+        name: zap-report
+        path: zap_report.html
