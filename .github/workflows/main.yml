@@ -2,6 +2,7 @@ name: OWASP ZAP Integration with GitHub Actions
 
 on: [push]
 
+
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
@@ -9,18 +10,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: main
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: vinaykumarnomula
-          password: V$arpv1234
 
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1
         with:
-          docker_name: 'zaproxy/zap2docker-stable'
+          docker_name: 'owasp/zap2docker-stable'
           target: 'http://testphp.vulnweb.com/'
           cmd_options: '-a'
+          
